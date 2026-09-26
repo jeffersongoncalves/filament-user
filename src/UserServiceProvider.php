@@ -9,10 +9,6 @@ class UserServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package
-            ->name('filament-user')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigrations();
+        $package->name('filament-user');
     }
 }

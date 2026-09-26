@@ -4,6 +4,8 @@ namespace JeffersonGoncalves\Filament\User\Tests\Fixtures;
 
 use Filament\Panel;
 use Filament\PanelProvider;
+use JeffersonGoncalves\Filament\User\Pages\Auth\Login;
+use JeffersonGoncalves\Filament\User\UserPlugin;
 
 class TestPanelProvider extends PanelProvider
 {
@@ -11,8 +13,11 @@ class TestPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('admin')
-            ->path('admin')
-            ->login();
+            ->id('app')
+            ->path('app')
+            ->login(Login::class)
+            ->plugins([
+                UserPlugin::make(),
+            ]);
     }
 }
