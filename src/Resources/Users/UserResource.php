@@ -24,6 +24,9 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
+    // Filament 3 derives the slug from the namespace ("users/users") otherwise.
+    protected static ?string $slug = 'users';
+
     protected static bool $isGloballySearchable = true;
 
     protected static ?string $recordTitleAttribute = 'name';

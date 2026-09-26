@@ -21,6 +21,10 @@ it('registers the user resource on the panel', function () {
         ->and(UserResource::getModel())->toBe(User::class);
 });
 
+it('serves the resource under /users', function () {
+    expect(UserResource::getUrl('index'))->toEndWith('/app/users');
+});
+
 it('lets the app swap in its own resource and pages follow it', function () {
     $plugin = UserPlugin::make()->resource(CustomUserResource::class);
     $panel = Panel::make()->id('custom')->plugin($plugin);
