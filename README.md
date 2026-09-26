@@ -12,6 +12,8 @@ Filament `User` model, `UserResource`, status-aware Login page and plugin used b
 
 | Branch | Filament | Package version |
 |--------|----------|-----------------|
+| 1.x | 3.x | ^1.0 |
+| 2.x | 4.x | ^2.0 |
 | 3.x | 5.x | ^3.0 |
 
 ## Installation
