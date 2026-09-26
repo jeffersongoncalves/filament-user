@@ -1,16 +1,20 @@
 <div class="filament-hidden">
 
-<!-- banner: art/jeffersongoncalves-filament-user.png (generate via portfolio-banner skill) -->
+![Filament User](https://raw.githubusercontent.com/jeffersongoncalves/filament-user/3.x/art/jeffersongoncalves-filament-user.png)
 
 </div>
 
-# User
+# Filament User
 
-Filament User model, UserResource, status-aware Login page and plugin for the jeffersongoncalves starter kits.
+Filament `User` model, `UserResource`, status-aware Login page and plugin used by the jeffersongoncalves starter kits. Built on [laravel-user](https://github.com/jeffersongoncalves/laravel-user).
+
+## Compatibility
+
+| Branch | Filament | Package version |
+|--------|----------|-----------------|
+| 3.x | 5.x | ^3.0 |
 
 ## Installation
-
-You can install the package via composer:
 
 ```bash
 composer require jeffersongoncalves/filament-user
@@ -18,9 +22,70 @@ composer require jeffersongoncalves/filament-user
 
 ## Usage
 
+### Model
+
 ```php
-// TODO
+namespace App\Models;
+
+use JeffersonGoncalves\Filament\User\Models\User as BaseUser;
+
+class User extends BaseUser
+{
+    // add traits (e.g. HasTeamsFilament), relations or overrides here
+}
 ```
+
+It implements `FilamentUser` (every panel except `admin`) and `HasAvatar` (reads the `filament-edit-profile.avatar_column`).
+
+### Panel
+
+```php
+use JeffersonGoncalves\Filament\User\Pages\Auth\Login;
+use JeffersonGoncalves\Filament\User\UserPlugin;
+
+// Panel where users sign in: only active users (status = true) can log in
+$panel->login(Login::class);
+
+// Panel that manages users (usually the admin panel)
+$panel->plugins([
+    UserPlugin::make()
+        ->impersonate(guard: 'web', redirectTo: '/app'),
+]);
+```
+
+The resource uses the model from `auth.providers.users.model`, so it always works with `App\Models\User`.
+
+### Extending
+
+Extend the resource and hand it to the plugin. The resource pages follow the plugin, so there is nothing else to copy:
+
+```php
+use JeffersonGoncalves\Filament\User\Resources\Users\Schemas\UserForm;
+use JeffersonGoncalves\Filament\User\Resources\Users\UserResource;
+
+class MyUserForm extends UserForm
+{
+    public static function components(): array
+    {
+        return [
+            ...parent::components(),
+            TextInput::make('phone'),
+        ];
+    }
+}
+
+class MyUserResource extends UserResource
+{
+    public static function form(Schema $schema): Schema
+    {
+        return MyUserForm::configure($schema);
+    }
+}
+
+UserPlugin::make()->resource(MyUserResource::class);
+```
+
+`UserInfolist::components()` and `UsersTable::columns()` can be extended the same way.
 
 ## Testing
 
@@ -32,17 +97,9 @@ composer test
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security
-
-If you discover any security related issues, please email the author instead of using the issue tracker.
-
 ## Credits
 
-- [jeffersongoncalves](https://github.com/jeffersongoncalves)
+- [Jefferson Gonçalves](https://github.com/jeffersongoncalves)
 - [All Contributors](../../contributors)
 
 ## License
