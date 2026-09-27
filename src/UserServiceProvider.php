@@ -11,7 +11,8 @@ class UserServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('filament-user')
-            ->hasConfigFile();
+            ->hasConfigFile()
+            ->hasTranslations();
     }
 
     public function packageRegistered(): void
