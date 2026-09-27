@@ -9,6 +9,13 @@ class UserServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package->name('filament-user');
+        $package
+            ->name('filament-user')
+            ->hasConfigFile();
+    }
+
+    public function packageRegistered(): void
+    {
+        $this->app->singleton(PanelAccess::class);
     }
 }
