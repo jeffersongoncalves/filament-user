@@ -50,17 +50,17 @@ class UserResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('filament-user::user.model_label');
+        return __('filament-user::resources/user.navigation.singular');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('filament-user::user.plural_model_label');
+        return __('filament-user::resources/user.navigation.label');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('filament-user::user.plural_model_label');
+        return __('filament-user::resources/user.navigation.label');
     }
 
     public static function getNavigationGroup(): ?string

@@ -1,10 +1,11 @@
 <?php
 
 return [
-    'model_label' => 'Usuário',
-    'plural_model_label' => 'Usuários',
-    'navigation_group' => 'Usuário',
-
+    'navigation' => [
+        'group' => 'Usuário',
+        'label' => 'Usuários',
+        'singular' => 'Usuário',
+    ],
     'fields' => [
         'id' => 'ID',
         'status' => 'Status',
@@ -14,6 +15,7 @@ return [
         'created_at' => 'Criado em',
         'updated_at' => 'Atualizado em',
     ],
-
-    'email_copied' => 'E-mail copiado com sucesso!',
+    'actions' => [
+        'email_copied' => 'E-mail copiado com sucesso!',
+    ],
 ];

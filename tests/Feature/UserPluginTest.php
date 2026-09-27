@@ -2,6 +2,7 @@
 
 use Filament\Facades\Filament;
 use Filament\Panel;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use JeffersonGoncalves\Filament\User\Facades\PanelAccess;
 use JeffersonGoncalves\Filament\User\Pages\Auth\Login;
@@ -101,7 +102,21 @@ it('ships translations for the resource labels', function (string $locale, strin
     ['en', 'User'],
     ['pt_BR', 'Usuário'],
     ['es', 'Usuario'],
+    ['de', 'Benutzer'],
+    ['fr', 'Utilisateur'],
 ]);
+
+it('ships every locale with the same keys as en', function (string $locale) {
+    $keys = fn (string $locale): array => array_keys(Arr::dot(require __DIR__."/../../resources/lang/{$locale}/resources/user.php"));
+
+    expect($keys($locale))->toBe($keys('en'));
+})->with(fn (): array => array_map('basename', glob(__DIR__.'/../../resources/lang/*', GLOB_ONLYDIR)));
+
+it('ships the 19 standard locales', function () {
+    expect(array_map('basename', glob(__DIR__.'/../../resources/lang/*', GLOB_ONLYDIR)))->toBe([
+        'ar', 'az', 'de', 'en', 'es', 'fa', 'fr', 'hi', 'it', 'ja', 'nl', 'pl', 'pt', 'pt_BR', 'ru', 'tr', 'uk', 'uz', 'zh_CN',
+    ]);
+});
 
 it('lets the plugin set or drop the navigation group', function () {
     expect(UserResource::getNavigationGroup())->toBe('User');
