@@ -124,6 +124,6 @@ class UserPlugin implements Plugin
             return null;
         }
 
-        return $this->navigationGroup ?? __('filament-user::user.navigation_group');
+        return $this->navigationGroup ?? __('filament-user::resources/user.navigation.group');
     }
 }
