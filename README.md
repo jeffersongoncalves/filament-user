@@ -37,7 +37,34 @@ class User extends BaseUser
 }
 ```
 
-It implements `FilamentUser` (every panel except `admin`) and `HasAvatar` (reads the `filament-edit-profile.avatar_column`).
+It implements `FilamentUser` and `HasAvatar` (reads the `filament-edit-profile.avatar_column`).
+
+### Panel access
+
+By default a user can enter every panel except `admin`, and only while `status = true`. Filament re-checks this on every request, so deactivating a user also ends their open sessions and remember-me logins.
+
+Tune the rules in the config file:
+
+```bash
+php artisan vendor:publish --tag="filament-user-config"
+```
+
+```php
+// config/filament-user.php
+'panel_access' => [
+    'denied_panels' => ['admin'],
+    'require_active_status' => true,
+],
+```
+
+Or replace the check entirely from a service provider (e.g. `AppServiceProvider::boot()`):
+
+```php
+use Filament\Panel;
+use JeffersonGoncalves\Filament\User\Facades\PanelAccess;
+
+PanelAccess::using(fn (User $user, Panel $panel): bool => $user->status && $panel->getId() === 'app');
+```
 
 ### Panel
 
