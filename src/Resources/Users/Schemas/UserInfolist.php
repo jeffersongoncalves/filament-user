@@ -35,13 +35,17 @@ class UserInfolist
     public static function components(): array
     {
         return [
-            TextEntry::make('id'),
+            TextEntry::make('id')
+                ->label(__('filament-user::user.fields.id')),
             IconEntry::make('status')
+                ->label(__('filament-user::user.fields.status'))
                 ->boolean(),
-            TextEntry::make('name'),
+            TextEntry::make('name')
+                ->label(__('filament-user::user.fields.name')),
             TextEntry::make('email')
+                ->label(__('filament-user::user.fields.email'))
                 ->copyable()
-                ->copyMessage('Email copied successfully!')
+                ->copyMessage(__('filament-user::user.email_copied'))
                 ->copyMessageDuration(1500),
         ];
     }

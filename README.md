@@ -84,6 +84,22 @@ $panel->plugins([
 
 The resource uses the model from `auth.providers.users.model`, so it always works with `App\Models\User`.
 
+Other plugin options:
+
+```php
+UserPlugin::make()
+    ->withoutImpersonation()       // hide the impersonate action (table, View and Edit pages)
+    ->navigationGroup('Access');   // custom navigation group; false = no group
+```
+
+### Translations
+
+Labels ship in `en`, `pt_BR` and `es` under the `filament-user::user.*` namespace. To change them, publish and edit:
+
+```bash
+php artisan vendor:publish --tag="filament-user-translations"
+```
+
 ### Extending
 
 Extend the resource and hand it to the plugin. The resource pages follow the plugin, so there is nothing else to copy:

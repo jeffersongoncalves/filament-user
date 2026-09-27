@@ -17,6 +17,7 @@ use JeffersonGoncalves\Filament\User\Resources\Users\Pages\ViewUser;
 use JeffersonGoncalves\Filament\User\Resources\Users\Schemas\UserForm;
 use JeffersonGoncalves\Filament\User\Resources\Users\Schemas\UserInfolist;
 use JeffersonGoncalves\Filament\User\Resources\Users\Tables\UsersTable;
+use JeffersonGoncalves\Filament\User\UserPlugin;
 use JeffersonGoncalves\User\Observers\UserObserver;
 
 class UserResource extends Resource
@@ -49,22 +50,22 @@ class UserResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('User');
+        return __('filament-user::user.model_label');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('Users');
+        return __('filament-user::user.plural_model_label');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('Users');
+        return __('filament-user::user.plural_model_label');
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return __('User');
+        return UserPlugin::current()->getNavigationGroup();
     }
 
     public static function getNavigationBadge(): ?string
