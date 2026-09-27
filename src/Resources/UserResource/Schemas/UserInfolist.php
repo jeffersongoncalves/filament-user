@@ -35,16 +35,16 @@ class UserInfolist
     {
         return [
             TextEntry::make('id')
-                ->label(__('filament-user::user.fields.id')),
+                ->label(__('filament-user::resources/user.fields.id')),
             IconEntry::make('status')
-                ->label(__('filament-user::user.fields.status'))
+                ->label(__('filament-user::resources/user.fields.status'))
                 ->boolean(),
             TextEntry::make('name')
-                ->label(__('filament-user::user.fields.name')),
+                ->label(__('filament-user::resources/user.fields.name')),
             TextEntry::make('email')
-                ->label(__('filament-user::user.fields.email'))
+                ->label(__('filament-user::resources/user.fields.email'))
                 ->copyable()
-                ->copyMessage(__('filament-user::user.email_copied'))
+                ->copyMessage(__('filament-user::resources/user.actions.email_copied'))
                 ->copyMessageDuration(1500),
         ];
     }

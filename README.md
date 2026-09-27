@@ -94,7 +94,7 @@ UserPlugin::make()
 
 ### Translations
 
-Labels ship in `en`, `pt_BR` and `es` under the `filament-user::user.*` namespace. To change them, publish and edit:
+Labels ship in 19 locales (`ar`, `az`, `de`, `en`, `es`, `fa`, `fr`, `hi`, `it`, `ja`, `nl`, `pl`, `pt`, `pt_BR`, `ru`, `tr`, `uk`, `uz`, `zh_CN`) under the `filament-user::resources/user.*` namespace (`navigation.*`, `fields.*`, `actions.*`). To change them, publish and edit:
 
 ```bash
 php artisan vendor:publish --tag="filament-user-translations"
