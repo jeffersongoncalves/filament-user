@@ -37,22 +37,27 @@ class UsersTable
     {
         return [
             IconColumn::make('status')
+                ->label(__('filament-user::user.fields.status'))
                 ->boolean()
                 ->trueIcon('heroicon-o-check-badge')
                 ->falseIcon('heroicon-o-x-mark')
                 ->sortable(),
             TextColumn::make('name')
+                ->label(__('filament-user::user.fields.name'))
                 ->searchable()
                 ->sortable(),
             TextColumn::make('email')
+                ->label(__('filament-user::user.fields.email'))
                 ->searchable()
                 ->sortable()
                 ->toggleable(),
             TextColumn::make('created_at')
+                ->label(__('filament-user::user.fields.created_at'))
                 ->dateTime()
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true),
             TextColumn::make('updated_at')
+                ->label(__('filament-user::user.fields.updated_at'))
                 ->dateTime()
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true),

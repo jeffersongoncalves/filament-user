@@ -5,6 +5,7 @@ use Filament\Panel;
 use Illuminate\Support\Facades\Hash;
 use JeffersonGoncalves\Filament\User\Facades\PanelAccess;
 use JeffersonGoncalves\Filament\User\Pages\Auth\Login;
+use JeffersonGoncalves\Filament\User\Resources\Users\Actions\ImpersonateUserAction;
 use JeffersonGoncalves\Filament\User\Resources\Users\Pages\CreateUser;
 use JeffersonGoncalves\Filament\User\Resources\Users\Pages\ListUsers;
 use JeffersonGoncalves\Filament\User\Resources\Users\UserResource;
@@ -86,6 +87,35 @@ it('lets the app replace the panel access check through the facade', function ()
     PanelAccess::using(null);
 
     expect($user->canAccessPanel(Panel::make()->id('app')))->toBeTrue();
+});
+
+it('shows impersonation by default and hides it when disabled', function () {
+    expect(UserPlugin::make()->isImpersonationEnabled())->toBeTrue();
+
+    Filament::setCurrentPanel(Panel::make()->id('custom')->plugin(UserPlugin::make()->withoutImpersonation()));
+
+    expect(ImpersonateUserAction::table()->isHidden())->toBeTrue()
+        ->and(ImpersonateUserAction::page()->isHidden())->toBeTrue();
+});
+
+it('ships translations for the resource labels', function (string $locale, string $label) {
+    app()->setLocale($locale);
+
+    expect(UserResource::getModelLabel())->toBe($label);
+})->with([
+    ['en', 'User'],
+    ['pt_BR', 'Usuário'],
+    ['es', 'Usuario'],
+]);
+
+it('lets the plugin set or drop the navigation group', function () {
+    expect(UserResource::getNavigationGroup())->toBe('User');
+
+    Filament::setCurrentPanel(Panel::make()->id('custom')->plugin(UserPlugin::make()->navigationGroup('Access')));
+    expect(UserResource::getNavigationGroup())->toBe('Access');
+
+    Filament::setCurrentPanel(Panel::make()->id('other')->plugin(UserPlugin::make()->navigationGroup(false)));
+    expect(UserResource::getNavigationGroup())->toBeNull();
 });
 
 it('lists users', function () {

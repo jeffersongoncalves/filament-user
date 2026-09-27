@@ -2,7 +2,6 @@
 
 namespace JeffersonGoncalves\Filament\User\Resources\Users\Actions;
 
-use Filament\Facades\Filament;
 use JeffersonGoncalves\Filament\User\UserPlugin;
 use STS\FilamentImpersonate\Pages\Actions\Impersonate as PageImpersonate;
 use STS\FilamentImpersonate\Tables\Actions\Impersonate as TableImpersonate;
@@ -14,24 +13,21 @@ class ImpersonateUserAction
 {
     public static function table(): TableImpersonate
     {
-        $plugin = static::plugin();
+        $plugin = UserPlugin::current();
 
         return TableImpersonate::make()
             ->guard($plugin->getImpersonateGuard())
-            ->redirectTo($plugin->getImpersonateRedirectTo());
+            ->redirectTo($plugin->getImpersonateRedirectTo())
+            ->hidden(! $plugin->isImpersonationEnabled());
     }
 
     public static function page(): PageImpersonate
     {
-        $plugin = static::plugin();
+        $plugin = UserPlugin::current();
 
         return PageImpersonate::make()
             ->guard($plugin->getImpersonateGuard())
-            ->redirectTo($plugin->getImpersonateRedirectTo());
-    }
-
-    protected static function plugin(): UserPlugin
-    {
-        return Filament::getCurrentPanel()?->hasPlugin('filament-user') ? UserPlugin::get() : UserPlugin::make();
+            ->redirectTo($plugin->getImpersonateRedirectTo())
+            ->hidden(! $plugin->isImpersonationEnabled());
     }
 }
