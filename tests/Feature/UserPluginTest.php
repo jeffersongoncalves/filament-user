@@ -3,6 +3,7 @@
 use Filament\Facades\Filament;
 use Filament\Panel;
 use Illuminate\Support\Facades\Hash;
+use JeffersonGoncalves\Filament\User\Facades\PanelAccess;
 use JeffersonGoncalves\Filament\User\Pages\Auth\Login;
 use JeffersonGoncalves\Filament\User\Resources\Users\Pages\CreateUser;
 use JeffersonGoncalves\Filament\User\Resources\Users\Pages\ListUsers;
@@ -39,6 +40,48 @@ it('denies the admin panel and allows others', function () {
     expect($user->canAccessPanel(Panel::make()->id('admin')))->toBeFalse()
         ->and($user->canAccessPanel(Panel::make()->id('app')))->toBeTrue()
         ->and($user->canImpersonate())->toBeFalse();
+});
+
+it('denies panel access to inactive users', function () {
+    $user = User::factory()->inactive()->make();
+
+    expect($user->canAccessPanel(Panel::make()->id('app')))->toBeFalse();
+});
+
+it('kicks a logged-in user out once deactivated', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    $this->get(UserResource::getUrl('index'))->assertOk();
+
+    $user->update(['status' => false]);
+
+    $this->get(UserResource::getUrl('index'))->assertForbidden();
+});
+
+it('reads panel access rules from config', function () {
+    config([
+        'filament-user.panel_access.denied_panels' => ['app'],
+        'filament-user.panel_access.require_active_status' => false,
+    ]);
+
+    $user = User::factory()->inactive()->make();
+
+    expect($user->canAccessPanel(Panel::make()->id('app')))->toBeFalse()
+        ->and($user->canAccessPanel(Panel::make()->id('admin')))->toBeTrue();
+});
+
+it('lets the app replace the panel access check through the facade', function () {
+    PanelAccess::using(fn (User $user, Panel $panel): bool => $panel->getId() === 'admin');
+
+    $user = User::factory()->make();
+
+    expect($user->canAccessPanel(Panel::make()->id('admin')))->toBeTrue()
+        ->and($user->canAccessPanel(Panel::make()->id('app')))->toBeFalse();
+
+    PanelAccess::using(null);
+
+    expect($user->canAccessPanel(Panel::make()->id('app')))->toBeTrue();
 });
 
 it('lists users', function () {
