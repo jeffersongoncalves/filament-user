@@ -2,7 +2,7 @@
 
 namespace JeffersonGoncalves\Filament\User\Tests\Fixtures;
 
-use JeffersonGoncalves\Filament\User\Resources\Users\UserResource;
+use JeffersonGoncalves\Filament\User\Resources\UserResource;
 
 class CustomUserResource extends UserResource
 {

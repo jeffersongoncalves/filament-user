@@ -1,6 +1,6 @@
 <?php
 
-namespace JeffersonGoncalves\Filament\User\Resources\Users\Schemas;
+namespace JeffersonGoncalves\Filament\User\Resources\UserResource\Schemas;
 
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Section;

@@ -105,8 +105,8 @@ php artisan vendor:publish --tag="filament-user-translations"
 Extend the resource and hand it to the plugin. The resource pages follow the plugin, so there is nothing else to copy:
 
 ```php
-use JeffersonGoncalves\Filament\User\Resources\Users\Schemas\UserForm;
-use JeffersonGoncalves\Filament\User\Resources\Users\UserResource;
+use JeffersonGoncalves\Filament\User\Resources\UserResource\Schemas\UserForm;
+use JeffersonGoncalves\Filament\User\Resources\UserResource;
 
 class MyUserForm extends UserForm
 {

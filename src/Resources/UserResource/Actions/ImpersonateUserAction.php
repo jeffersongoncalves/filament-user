@@ -1,6 +1,6 @@
 <?php
 
-namespace JeffersonGoncalves\Filament\User\Resources\Users\Actions;
+namespace JeffersonGoncalves\Filament\User\Resources\UserResource\Actions;
 
 use JeffersonGoncalves\Filament\User\UserPlugin;
 use STS\FilamentImpersonate\Pages\Actions\Impersonate as PageImpersonate;

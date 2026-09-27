@@ -1,11 +1,11 @@
 <?php
 
-namespace JeffersonGoncalves\Filament\User\Resources\Users\Pages;
+namespace JeffersonGoncalves\Filament\User\Resources\UserResource\Pages;
 
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
-use JeffersonGoncalves\Filament\User\Resources\Users\Pages\Concerns\ResolvesResource;
-use JeffersonGoncalves\Filament\User\Resources\Users\UserResource;
+use JeffersonGoncalves\Filament\User\Resources\UserResource;
+use JeffersonGoncalves\Filament\User\Resources\UserResource\Pages\Concerns\ResolvesResource;
 
 class ListUsers extends ListRecords
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace JeffersonGoncalves\Filament\User\Resources\Users\Tables;
+namespace JeffersonGoncalves\Filament\User\Resources\UserResource\Tables;
 
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
@@ -9,7 +9,7 @@ use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use JeffersonGoncalves\Filament\User\Resources\Users\Actions\ImpersonateUserAction;
+use JeffersonGoncalves\Filament\User\Resources\UserResource\Actions\ImpersonateUserAction;
 
 class UsersTable
 {

@@ -5,7 +5,7 @@ namespace JeffersonGoncalves\Filament\User;
 use Filament\Contracts\Plugin;
 use Filament\Facades\Filament;
 use Filament\Panel;
-use JeffersonGoncalves\Filament\User\Resources\Users\UserResource;
+use JeffersonGoncalves\Filament\User\Resources\UserResource;
 
 class UserPlugin implements Plugin
 {

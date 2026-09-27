@@ -1,6 +1,6 @@
 <?php
 
-namespace JeffersonGoncalves\Filament\User\Resources\Users\Pages\Concerns;
+namespace JeffersonGoncalves\Filament\User\Resources\UserResource\Pages\Concerns;
 
 use Filament\Facades\Filament;
 use JeffersonGoncalves\Filament\User\UserPlugin;
