@@ -8,6 +8,7 @@ use JeffersonGoncalves\Filament\User\Facades\PanelAccess;
 use JeffersonGoncalves\Filament\User\Pages\Auth\Login;
 use JeffersonGoncalves\Filament\User\Resources\Users\Actions\ImpersonateUserAction;
 use JeffersonGoncalves\Filament\User\Resources\Users\Pages\CreateUser;
+use JeffersonGoncalves\Filament\User\Resources\Users\Pages\EditUser;
 use JeffersonGoncalves\Filament\User\Resources\Users\Pages\ListUsers;
 use JeffersonGoncalves\Filament\User\Resources\Users\UserResource;
 use JeffersonGoncalves\Filament\User\Tests\Fixtures\CustomUserResource;
@@ -170,4 +171,29 @@ it('only lets active users log in', function () {
         ->assertHasNoFormErrors();
 
     $this->assertAuthenticated();
+});
+
+it('keeps the password when a user is edited without one', function () {
+    $user = User::factory()->create(['password' => 'secret123']);
+    $this->actingAs($user);
+
+    Livewire::test(EditUser::class, ['record' => $user->getRouteKey()])
+        ->fillForm(['name' => 'Renamed', 'password' => null])
+        ->call('save')
+        ->assertHasNoFormErrors();
+
+    $user->refresh();
+
+    expect($user->name)->toBe('Renamed')
+        ->and(Hash::check('secret123', $user->password))->toBeTrue();
+});
+
+it('rejects a duplicate user email', function () {
+    User::factory()->create(['email' => 'taken@example.com']);
+    $this->actingAs(User::factory()->create());
+
+    Livewire::test(CreateUser::class)
+        ->fillForm(['status' => true, 'name' => 'Jane', 'email' => 'taken@example.com', 'password' => 'secret123'])
+        ->call('create')
+        ->assertHasFormErrors(['email' => 'unique']);
 });
