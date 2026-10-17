@@ -16,6 +16,7 @@ use JeffersonGoncalves\Filament\AdditionalInformation\FilamentAdditionalInformat
 use JeffersonGoncalves\Filament\User\Tests\Fixtures\TestPanelProvider;
 use JeffersonGoncalves\Filament\User\Tests\Fixtures\User;
 use JeffersonGoncalves\Filament\User\UserServiceProvider;
+use JeffersonGoncalves\PestPluginDatabaseMigrations\LoadsPackageMigrations;
 use JeffersonGoncalves\User\UserServiceProvider as LaravelUserServiceProvider;
 use Lab404\Impersonate\ImpersonateServiceProvider;
 use Livewire\LivewireServiceProvider;
@@ -25,6 +26,8 @@ use STS\FilamentImpersonate\FilamentImpersonateServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
+    use LoadsPackageMigrations;
+
     protected function getPackageProviders($app): array
     {
         return [
@@ -58,6 +61,6 @@ abstract class TestCase extends Orchestra
 
     protected function defineDatabaseMigrations(): void
     {
-        (include __DIR__.'/../vendor/jeffersongoncalves/laravel-user/database/migrations/create_users_table.php.stub')->up();
+        $this->loadPackageMigrations(LaravelUserServiceProvider::class);
     }
 }
