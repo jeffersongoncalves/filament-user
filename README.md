@@ -89,7 +89,9 @@ Other plugin options:
 ```php
 UserPlugin::make()
     ->withoutImpersonation()       // hide the impersonate action (table, View and Edit pages)
-    ->navigationGroup('Access');   // custom navigation group; false = no group
+    ->navigationGroup('Access')    // custom navigation group; false = no group
+    ->groupRecordActions()         // wrap the table's record actions in one ActionGroup dropdown
+    ->recordActionsPosition(RecordActionsPosition::BeforeColumns); // null = table/global default
 ```
 
 ### Translations
