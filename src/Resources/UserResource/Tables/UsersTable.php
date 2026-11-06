@@ -2,6 +2,8 @@
 
 namespace JeffersonGoncalves\Filament\User\Resources\UserResource\Tables;
 
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
@@ -10,22 +12,39 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use JeffersonGoncalves\Filament\User\Resources\UserResource\Actions\ImpersonateUserAction;
+use JeffersonGoncalves\Filament\User\UserPlugin;
 
 class UsersTable
 {
     public static function configure(Table $table): Table
     {
+        $plugin = UserPlugin::current();
+        $actions = static::recordActions();
+
         return $table
             ->columns(static::columns())
             ->filters([
                 //
             ])
-            ->actions([
-                ImpersonateUserAction::table(),
-                ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
-            ]);
+            ->actions(
+                $plugin->shouldGroupRecordActions() ? [ActionGroup::make($actions)] : $actions,
+                position: $plugin->getRecordActionsPosition(),
+            );
+    }
+
+    /**
+     * Override (or merge with parent::recordActions()) to add record actions.
+     *
+     * @return array<int, Action>
+     */
+    public static function recordActions(): array
+    {
+        return [
+            ImpersonateUserAction::table(),
+            ViewAction::make(),
+            EditAction::make(),
+            DeleteAction::make(),
+        ];
     }
 
     /**

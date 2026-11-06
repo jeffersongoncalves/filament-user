@@ -87,9 +87,13 @@ The resource uses the model from `auth.providers.users.model`, so it always work
 Other plugin options:
 
 ```php
+use Filament\Tables\Enums\ActionsPosition;
+
 UserPlugin::make()
     ->withoutImpersonation()       // hide the impersonate action (table, View and Edit pages)
-    ->navigationGroup('Access');   // custom navigation group; false = no group
+    ->navigationGroup('Access')    // custom navigation group; false = no group
+    ->groupRecordActions()         // wrap the table's record actions in one ActionGroup dropdown
+    ->recordActionsPosition(ActionsPosition::BeforeColumns); // null = table/global default
 ```
 
 ### Translations
