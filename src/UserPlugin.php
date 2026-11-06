@@ -2,9 +2,11 @@
 
 namespace JeffersonGoncalves\Filament\User;
 
+use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Facades\Filament;
 use Filament\Panel;
+use Filament\Tables\Enums\RecordActionsPosition;
 use JeffersonGoncalves\Filament\User\Resources\Users\UserResource;
 
 class UserPlugin implements Plugin
@@ -19,6 +21,10 @@ class UserPlugin implements Plugin
     protected bool $impersonationEnabled = true;
 
     protected string|false|null $navigationGroup = null;
+
+    protected bool|Closure $groupRecordActions = false;
+
+    protected RecordActionsPosition|Closure|null $recordActionsPosition = null;
 
     public function getId(): string
     {
@@ -125,5 +131,35 @@ class UserPlugin implements Plugin
         }
 
         return $this->navigationGroup ?? __('filament-user::resources/user.navigation.group');
+    }
+
+    /**
+     * Render the table's record actions inside a single ActionGroup dropdown.
+     */
+    public function groupRecordActions(bool|Closure $condition = true): static
+    {
+        $this->groupRecordActions = $condition;
+
+        return $this;
+    }
+
+    public function shouldGroupRecordActions(): bool
+    {
+        return (bool) value($this->groupRecordActions);
+    }
+
+    /**
+     * Null keeps the table's (or the global configureUsing) default.
+     */
+    public function recordActionsPosition(RecordActionsPosition|Closure|null $position): static
+    {
+        $this->recordActionsPosition = $position;
+
+        return $this;
+    }
+
+    public function getRecordActionsPosition(): RecordActionsPosition|Closure|null
+    {
+        return $this->recordActionsPosition;
     }
 }
