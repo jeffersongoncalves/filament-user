@@ -1,7 +1,10 @@
 <?php
 
+use Filament\Actions\ActionGroup;
 use Filament\Facades\Filament;
 use Filament\Panel;
+use Filament\Tables\Enums\RecordActionsPosition;
+use Filament\Tables\Table;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use JeffersonGoncalves\Filament\User\Facades\PanelAccess;
@@ -127,6 +130,26 @@ it('lets the plugin set or drop the navigation group', function () {
 
     Filament::setCurrentPanel(Panel::make()->id('other')->plugin(UserPlugin::make()->navigationGroup(false)));
     expect(UserResource::getNavigationGroup())->toBeNull();
+});
+
+it('keeps record actions loose by default and groups/positions them when configured', function () {
+    $this->actingAs(User::factory()->create());
+
+    $livewire = Livewire::test(ListUsers::class)->instance();
+    $table = UserResource::table(Table::make($livewire));
+
+    expect($table->getRecordActions())->toHaveCount(4)
+        ->and($table->getRecordActionsPosition())->toBe(RecordActionsPosition::AfterColumns);
+
+    Filament::setCurrentPanel(Panel::make()->id('custom')->plugin(
+        UserPlugin::make()->groupRecordActions()->recordActionsPosition(RecordActionsPosition::BeforeColumns),
+    ));
+
+    $table = UserResource::table(Table::make($livewire));
+
+    expect($table->getRecordActions())->toHaveCount(1)
+        ->and($table->getRecordActions()[0])->toBeInstanceOf(ActionGroup::class)
+        ->and($table->getRecordActionsPosition())->toBe(RecordActionsPosition::BeforeColumns);
 });
 
 it('lists users', function () {
